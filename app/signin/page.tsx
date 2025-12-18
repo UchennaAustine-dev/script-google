@@ -59,7 +59,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f5f7fa]">
+    <div className="min-h-screen flex flex-col bg-[#fcfcfc]">
       {/* Top info bar - responsive */}
       {showInfoBar && (
         <div className="bg-[#e8f0fe] flex items-center px-3 sm:px-4 py-2 border-b border-[#e0e0e0]">
@@ -110,9 +110,9 @@ export default function SignInPage() {
         </div>
       )}
 
-      {/* Centered sign-in box - responsive */}
+      {/* Centered sign-in form, no box */}
       <div className="flex flex-1 items-center justify-center p-4 sm:p-6">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-sm sm:shadow-md flex flex-col items-center py-8 sm:py-12 px-4 sm:px-6">
+        <div className="w-full max-w-md flex flex-col items-center">
           {/* OneDrive logo */}
           <img
             src="/onedrive-logo.jpeg"
@@ -123,7 +123,10 @@ export default function SignInPage() {
               e.currentTarget.style.display = "none";
             }}
           />
-          <div className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 mt-2 text-center">
+          <div
+            className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 mt-2 text-center text-[#222]"
+            style={{ letterSpacing: 0.5 }}
+          >
             Sign In
           </div>
           <form
@@ -136,9 +139,10 @@ export default function SignInPage() {
                 placeholder="School Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors"
+                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors placeholder:text-[#444] text-[#222] font-normal"
                 autoComplete="username"
                 disabled={isLoading}
+                style={{ background: "#fff" }}
               />
             </div>
             <div className="w-full mb-2 relative">
@@ -147,9 +151,10 @@ export default function SignInPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors"
+                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors placeholder:text-[#444] text-[#222] font-normal"
                 autoComplete="current-password"
                 disabled={isLoading}
+                style={{ background: "#fff" }}
               />
             </div>
             <div className="w-full flex items-center mb-2">
