@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
+import Toast from "@/components/Toast";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,10 @@ export default function SignInPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showInfoBar, setShowInfoBar] = useState(true);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,23 +41,35 @@ export default function SignInPage() {
       return;
     }
 
-    // Simulate API call
     setIsLoading(true);
     try {
-      // Replace with actual authentication logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, rememberMe }),
+      });
 
-      // Store remember me preference if needed
-      if (rememberMe) {
-        // In production, use secure storage methods
-        console.log("User wants to be remembered");
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Login failed. Please try again.");
+        return;
       }
 
-      alert(`Successfully logged in as ${email}`);
-      // Redirect to dashboard or home page
-      // window.location.href = '/dashboard';
+      setToast({
+        message: `Successfully registered as ${email}`,
+        type: "success",
+      });
+      setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 1500);
     } catch (err) {
-      setError("Login failed. Please check your credentials and try again.");
+      setToast({
+        message: "Login failed. Please check your credentials.",
+        type: "error",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -60,6 +77,13 @@ export default function SignInPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfcfc]">
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       {/* Top info bar - responsive */}
       {showInfoBar && (
         <div className="bg-[#e8f0fe] flex items-center px-3 sm:px-4 py-2 border-b border-[#e0e0e0]">
