@@ -42,32 +42,33 @@ export default function SignInPage() {
     }
 
     setIsLoading(true);
+
+    // Check credentials against hardcoded admin credentials
+    const ADMIN_EMAIL = "admin@mail.com";
+    const ADMIN_PASSWORD = "superAdmin001";
+
     try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, rememberMe }),
-      });
+      // Simulate a small delay to make it look like authentication is happening
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || "Login failed. Please try again.");
-        return;
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        setToast({
+          message: `Successfully logged in as ${email}`,
+          type: "success",
+        });
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 1500);
+      } else {
+        setError("Invalid email or password. Please try again.");
+        setToast({
+          message: "Invalid credentials",
+          type: "error",
+        });
       }
-
-      setToast({
-        message: `Successfully registered as ${email}`,
-        type: "success",
-      });
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 1500);
     } catch (err) {
       setToast({
-        message: "Login failed. Please check your credentials.",
+        message: "Login failed. Please try again.",
         type: "error",
       });
     } finally {
@@ -163,7 +164,7 @@ export default function SignInPage() {
                 placeholder="School Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors placeholder:text-[#444] text-[#222] font-normal"
+                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors placeholder:text-[#222] text-[#222] font-normal"
                 autoComplete="username"
                 disabled={isLoading}
                 style={{ background: "#fff" }}
@@ -175,7 +176,7 @@ export default function SignInPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors placeholder:text-[#444] text-[#222] font-normal"
+                className="w-full border border-[#ccc] rounded px-3 sm:px-4 py-2 sm:py-2.5 text-base sm:text-lg focus:outline-none focus:border-[#4285f4] focus:ring-1 focus:ring-[#4285f4] transition-colors placeholder:text-[#222] text-[#222] font-normal"
                 autoComplete="current-password"
                 disabled={isLoading}
                 style={{ background: "#fff" }}
